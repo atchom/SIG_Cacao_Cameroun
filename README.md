@@ -1,1 +1,1 @@
-# SIG_Cacao_Cameroun
+# Système d’information géographique (SIG) des bassins cacaoyers camerounais
