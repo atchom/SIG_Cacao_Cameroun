@@ -1,7 +1,7 @@
 # 🗺️ Système d’information géographique (SIG) des bassins cacaoyers camerounais
 ---
 
-## 📌 Présentation du projet
+## 📌 Présentation du projet 
 
 Le cacao représente une culture de rente majeure pour l'économie camerounaise, classant le Cameroun parmi les principaux producteurs mondiaux. Pourtant, les données géolocalisées précises sur les zones de production restent fragmentées, incomplètes ou difficilement accessibles.
 
