@@ -30,11 +30,10 @@ Le projet s'appuie sur un fichier CSV contenant une liste de localités cameroun
 | Limbe | 4.083582 | 9.355073 |
 | Kumba | 4.6443 | 9.4434 |
 
-> ⚠️ **Note** : Certaines localités mentionnées ne disposent pas encore de coordonnées (Obala, Bafia, Nanga-Eboko, Sangmélima, etc.). Le projet reste ouvert aux enrichissements futurs.
-
+> ⚠️ **Note** : Le tableau ci-dessus présente un aperçu des données. L'intégralité des coordonnées géographiques des localités est disponible dans les documents sources en annexe.
 ---
 ### Visuel de l'Architecture Technique
-![Architecture technique du projet](https://raw.githubusercontent.com/atchom/SIG_Cacao_Cameroun/54abd439ed675a48cca819ee990766b603ab3664/images/Architecture_map.png)
+![Architecture technique du projet](https://raw.githubusercontent.com/atchom/SIG_Cacao_Cameroun/92d8573100e6223ada07581c972f5214af1a2059/images/Architec.png)
 ## 🛠️ Technologies utilisées
 
 ### 1️⃣ Collecte des données
@@ -62,7 +61,8 @@ Le projet s'appuie sur un fichier CSV contenant une liste de localités cameroun
 | 🗺️ **Cartes interactives** | Visualisations dynamiques (Folium, Leaflet) accessibles en ligne |
 | 🌐 **Web SIG** | Publication interactive des cartes sur le web |
 ---
-
+> 📁 **Accès aux sources** : L'ensemble des fichiers sources (scripts Python, données CSV, projet QGIS) nécessaire à l'implémentation de ce projet est disponible en **annexe**.
+---
 ## 🗺️ Résultat : Carte finale des bassins cacaoyers
 ![Carte des zones cacaoyères du Cameroun](https://raw.githubusercontent.com/atchom/SIG_Cacao_Cameroun/main/images/Cameroun_Cacao_Map.png)
 ---
