@@ -1,0 +1,42 @@
+﻿Region;Departement;Localite;Type;Poids_Regional_%;Capacite_Production_Tonnes;Commentaire_Rendement_Transformation
+Sud-Ouest;Manyu;Mamfe;Production;43.4;58200;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Manyu;Eyumojock;Production;43.4;58200;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Manyu;Akwaya;Production;43.4;58200;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Meme;Kumba;Production;43.4;26800;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Meme;Mbonge;Production;43.4;26800;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Meme;Konye;Production;43.4;26800;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Ndian;Mundemba;Production;43.4;19500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Ndian;Ekondo-Titi;Production;43.4;19500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Ndian;Isangele;Production;43.4;19500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Fako;Muyuka;Production;43.4;16500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Fako;Tiko;Production;43.4;16500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Fako;Limbe;Production;43.4;16500;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Lebialem;Menji;Production;43.4;9000;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Lebialem;Wabane;Production;43.4;9000;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Lebialem;Alou;Production;43.4;9000;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Koupé-Manengouba;Bangem;Production;43.4;5600;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Koupé-Manengouba;Tombel;Production;43.4;5600;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Sud-Ouest;Koupé-Manengouba;Nguti;Production;43.4;5600;Première région productrice (43.4% de la production nationale). Forte insécurité et maladies en 2025.
+Centre;Mbam-et-Kim;Ngoro;Production;36.8;18500;Deuxième région productrice (36.8% de la production nationale). Rendement record de 1.2 T/ha.
+Centre;Lékié;Obala;Production;36.8;21000;Deuxième région productrice (36.8% de la production nationale). Rendement ~1 T/ha. Transformation : Chocolaterie Chocolat rouge.
+Centre;Mbam-et-Inoubou;Bafia;Production;36.8;17500;Deuxième région productrice (36.8% de la production nationale). Rendement ~1 T/ha.
+Centre;Nyong-et-So'o;Mbalmayo;Production;36.8;16500;Deuxième région productrice (36.8% de la production nationale). Pilier historique.
+Centre;Nyong-et-Kellé;Éséka;Production;36.8;12500;Deuxième région productrice (36.8% de la production nationale). Rendement inférieur.
+Centre;Mefou-et-Akono;Mbankomo;Production;36.8;9500;Deuxième région productrice (36.8% de la production nationale). Transformation : Usine Africa Processing Company.
+Centre;Nyong-et-Mfoumou;Akonolinga;Production;36.8;10500;Deuxième région productrice (36.8% de la production nationale).
+Centre;Haute Sanaga;Nanga-Eboko;Production;36.8;6400;Deuxième région productrice (36.8% de la production nationale). Production mineure.
+Sud;Dja-et-Lobo;Sangmélima;Production;;14500;Rendement 400-500 kg/ha.
+Sud;Mvila;Ebolowa;Production;;12000;Rendement 400-500 kg/ha.
+Sud;Océan;Kribi;Production;;6500;Production de moindre importance.
+Est;Boumba-et-Ngoko;Yokadouma;Production;;9000;Rendement 600-700 kg/ha.
+Est;Dimako;Bertoua;Production;;4500;Production de moindre importance.
+Ouest;Haut-Nkam;Bafang;Production;;8000;Transformation : Usine Neo Industry à Kekem (80 000 T/an de capacité).
+Ouest;Ndé;Bangangté;Production;;3500;Zone mentionnée dans les études.
+Ouest;Menoua;Dschang;Production;;3000;Zone mentionnée dans les études.
+Littoral;Moungo;Mbanga;Production;;15000;Production mentionnée dans les études.
+Littoral;Wouri;Douala;Transformation;;5000;Pôle de transformation. Port d'exportation.
+Adamaoua;Tous départements;Ngaoundéré;Production;;7000;Nouveau bassin. Données non consolidées.
+Nord-Ouest;Boyo;Fungom;Production;;2000;Production paralysée (crise).
+Nord-Ouest;Momo;Mbengwi;Production;;1500;Production paralysée (crise).
+Nord-Ouest;Mezam;Bamenda;Production;;1200;Production paralysée (crise).
+Nord-Ouest;Ngo-Ketunjia;Ndop;Production;;1000;Production paralysée (crise).
