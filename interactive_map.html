@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+        
+        .filter-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 260px;
+            max-width: 320px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .filter-panel h3 {
+            margin: 0 0 5px 0;
+            color: #2E7D32;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-panel .subtitle {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .filter-panel label {
+            font-weight: 600;
+            color: #2E7D32;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .filter-panel select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-panel select:hover {
+            border-color: #2E7D32;
+        }
+        
+        .filter-panel select:focus {
+            outline: none;
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 2px rgba(46,125,50,0.1);
+        }
+        
+        .btn-zoom {
+            width: 100%;
+            padding: 10px;
+            margin-top: 18px;
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-zoom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46,125,50,0.4);
+        }
+        
+        .btn-reset {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .btn-reset:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .info-card {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 350px;
+            border-left: 4px solid #2E7D32;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .info-card h4 {
+            color: #2E7D32;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .info-card .info-content {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .info-card .info-row {
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .info-card .info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 100px;
+        }
+        
+        .info-card .info-value {
+            color: #333;
+        }
+        
+        .production-high {
+            color: #2E7D32;
+            font-weight: bold;
+        }
+        
+        .close-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close-info:hover {
+            color: #333;
+        }
+        
+        @media (max-width: 600px) {
+            .filter-panel {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+                padding: 12px;
+            }
+            .info-card {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+            }
+        }
+        
+        .leaflet-popup-content {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+        }
+        
+        .blue-marker {
+            background: none;
+            border: none;
+        }
+        
+        .blue-marker i {
+            font-size: 32px;
+            color: #2196F3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 0.5s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Style de base pour les marqueurs standards */
+        .custom-marker {
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="filter-panel">
+    <h3>
+        <span>🌍</span> Cacao Cameroun 2025
+    </h3>
+    <div class="subtitle">Production et transformation</div>
+    
+    <label>📍 Région :</label>
+    <select id="regionSelect">
+        <option value="">-- Toutes les régions --</option>
+    </select>
+
+    <label>📌 Département :</label>
+    <select id="depSelect">
+        <option value="">-- Choisir d'abord une région --</option>
+    </select>
+
+    <label>🏘️ Localité :</label>
+    <select id="locSelect">
+        <option value="">-- Choisir d'abord un département --</option>
+    </select>
+    
+    <button class="btn-zoom" onclick="zoomToLocalite()">🔍 Zoomez et voir les détails</button>
+    <button class="btn-reset" onclick="resetMap()">🔄 Réinitialiser la carte</button>
+</div>
+
+<div class="info-card" id="infoCard" style="display: none;">
+    <button class="close-info" onclick="document.getElementById('infoCard').style.display='none'">&times;</button>
+    <h4 id="infoTitle">📍 Localité</h4>
+    <div class="info-content" id="infoContent"></div>
+</div>
+
+<div id="map"></div>
+
+<script>
+// Données avec coordonnées précises mises à jour
+const cacaoData = [
+    // Sud-Ouest - Manyu
+    {region: "Sud-Ouest", departement: "Manyu", localite: "Mamfe", lat: 5.7487, lon: 9.3164, type: "Production", capacite: 58200, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Manyu", localite: "Eyumojock", lat: 5.768716, lon: 8.983930, type: "Production", capacite: 58200, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Manyu", localite: "Akwaya", lat: 6.373, lon: 9.525, type: "Production", capacite: 58200, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Sud-Ouest - Meme
+    {region: "Sud-Ouest", departement: "Meme", localite: "Kumba", lat: 4.6364, lon: 9.4408, type: "Production", capacite: 26800, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Meme", localite: "Mbonge", lat: 4.5000, lon: 9.1695, type: "Production", capacite: 26800, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Meme", localite: "Konye", lat: 4.9653, lon: 9.4730, type: "Production", capacite: 26800, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Sud-Ouest - Ndian
+    {region: "Sud-Ouest", departement: "Ndian", localite: "Mundemba", lat: 4.96990, lon: 8.90991, type: "Production", capacite: 19500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Ndian", localite: "Ekondo-Titi", lat: 4.6000, lon: 9.0500, type: "Production", capacite: 19500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Ndian", localite: "Isangele", lat: 4.72337, lon: 8.65946, type: "Production", capacite: 19500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Sud-Ouest - Fako
+    {region: "Sud-Ouest", departement: "Fako", localite: "Muyuka", lat: 4.2833, lon: 9.4167, type: "Production", capacite: 16500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Fako", localite: "Tiko", lat: 4.0833, lon: 9.3667, type: "Production", capacite: 16500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Fako", localite: "Limbe", lat: 4.0167, lon: 9.2167, type: "Production", capacite: 16500, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Sud-Ouest - Lebialem
+    {region: "Sud-Ouest", departement: "Lebialem", localite: "Menji", lat: 5.4909, lon: 9.8513, type: "Production", capacite: 9000, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Lebialem", localite: "Wabane", lat: 5.6833, lon: 9.9667, type: "Production", capacite: 9000, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Lebialem", localite: "Alou", lat: 5.5269, lon: 9.9402, type: "Production", capacite: 9000, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Sud-Ouest - Koupé-Manengouba
+    {region: "Sud-Ouest", departement: "Koupé-Manengouba", localite: "Bangem", lat: 5.08318, lon: 9.76642, type: "Production", capacite: 5600, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Koupé-Manengouba", localite: "Tombel", lat: 4.7546, lon: 9.6707, type: "Production", capacite: 5600, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    {region: "Sud-Ouest", departement: "Koupé-Manengouba", localite: "Nguti", lat: 5.3333, lon: 9.4167, type: "Production", capacite: 5600, commentaire: "Première région productrice (43.4% de la production nationale)."},
+    // Centre
+    {region: "Centre", departement: "Mbam-et-Kim", localite: "Ngoro", lat: 4.9500, lon: 11.3833, type: "Production", capacite: 18500, commentaire: "Deuxième région productrice (36.8% de la production nationale)."},
+    {region: "Centre", departement: "Lékié", localite: "Obala", lat: 4.1667, lon: 11.5333, type: "Production", capacite: 21000, commentaire: "Deuxième région productrice. Transformation : Chocolaterie Chocolat rouge."},
+    {region: "Centre", departement: "Mbam-et-Inoubou", localite: "Bafia", lat: 4.7500, lon: 11.2333, type: "Production", capacite: 17500, commentaire: "Deuxième région productrice (36.8% de la production nationale)."},
+    {region: "Centre", departement: "Nyong-et-So'o", localite: "Mbalmayo", lat: 3.5167, lon: 11.5000, type: "Production", capacite: 16500, commentaire: "Deuxième région productrice. Pilier historique."},
+    {region: "Centre", departement: "Nyong-et-Kellé", localite: "Éséka", lat: 3.6500, lon: 10.7667, type: "Production", capacite: 12500, commentaire: "Deuxième région productrice. Rendement inférieur."},
+    {region: "Centre", departement: "Mefou-et-Akono", localite: "Mbankomo", lat: 3.7833, lon: 11.4000, type: "Production", capacite: 9500, commentaire: "Transformation : Usine Africa Processing Company."},
+    {region: "Centre", departement: "Nyong-et-Mfoumou", localite: "Akonolinga", lat: 3.7667, lon: 12.2500, type: "Production", capacite: 10500, commentaire: "Deuxième région productrice."},
+    {region: "Centre", departement: "Haute Sanaga", localite: "Nanga-Eboko", lat: 4.6833, lon: 12.3667, type: "Production", capacite: 6400, commentaire: "Production mineure."},
+    // Sud
+    {region: "Sud", departement: "Dja-et-Lobo", localite: "Sangmélima", lat: 2.9333, lon: 11.9833, type: "Production", capacite: 14500, commentaire: "Rendement 400-500 kg/ha."},
+    {region: "Sud", departement: "Mvila", localite: "Ebolowa", lat: 2.9253, lon: 11.1497, type: "Production", capacite: 12000, commentaire: "Rendement 400-500 kg/ha."},
+    {region: "Sud", departement: "Océan", localite: "Kribi", lat: 2.9500, lon: 9.9167, type: "Production", capacite: 6500, commentaire: "Production de moindre importance."},
+    // Est
+    {region: "Est", departement: "Boumba-et-Ngoko", localite: "Yokadouma", lat: 3.5167, lon: 15.0500, type: "Production", capacite: 9000, commentaire: "Rendement 600-700 kg/ha."},
+    {region: "Est", departement: "Dimako", localite: "Bertoua", lat: 4.5833, lon: 13.6833, type: "Production", capacite: 4500, commentaire: "Production de moindre importance."},
+    // Ouest
+    {region: "Ouest", departement: "Haut-Nkam", localite: "Bafang", lat: 5.1667, lon: 10.1833, type: "Production", capacite: 8000, commentaire: "Transformation : Usine Neo Industry à Kekem."},
+    {region: "Ouest", departement: "Ndé", localite: "Bangangté", lat: 5.1413, lon: 10.5301, type: "Production", capacite: 3500, commentaire: "Zone mentionnée dans les études."},
+    {region: "Ouest", departement: "Menoua", localite: "Dschang", lat: 5.4500, lon: 10.0667, type: "Production", capacite: 3000, commentaire: "Zone mentionnée dans les études."},
+    // Littoral
+    {region: "Littoral", departement: "Moungo", localite: "Mbanga", lat: 4.5000, lon: 9.5667, type: "Production", capacite: 15000, commentaire: "Production mentionnée dans les études."},
+    {region: "Littoral", departement: "Wouri", localite: "Douala", lat: 4.0500, lon: 9.7000, type: "Transformation", capacite: 5000, commentaire: "Pôle de transformation. Port d'exportation."},
+    // Nord-Ouest
+    {region: "Nord-Ouest", departement: "Boyo", localite: "Fungom", lat: 6.51430, lon: 10.22870, type: "Production", capacite: 2000, commentaire: "Production paralysée (crise)."},
+    {region: "Nord-Ouest", departement: "Momo", localite: "Mbengwi", lat: 6.0167, lon: 10.0000, type: "Production", capacite: 1500, commentaire: "Production paralysée (crise)."},
+    {region: "Nord-Ouest", departement: "Mezam", localite: "Bamenda", lat: 5.9600, lon: 10.1500, type: "Production", capacite: 1200, commentaire: "Production paralysée (crise)."},
+    {region: "Nord-Ouest", departement: "Ngo-Ketunjia", localite: "Ndop", lat: 5.9959, lon: 10.4377, type: "Production", capacite: 1000, commentaire: "Production paralysée (crise)."}
+];
+
+// Initialisation de la carte
+var map = L.map('map').setView([5.5, 12.5], 6.2);
+
+// Fond de carte gris clair
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20,
+    minZoom: 4
+}).addTo(map);
+
+// Marqueurs standards
+var markers = [];
+var selectedBlueMarker = null;
+
+// Parcourir les données et ajouter les marqueurs
+cacaoData.forEach(function(item) {
+    var markerColor = item.type === "Transformation" ? "#FF9800" : "#8B6914";
+    var borderColor = "#2E7D32";
+    
+    var size = Math.min(20, Math.max(8, Math.sqrt(item.capacite / 1000) * 2.5));
+    
+    var customIcon = L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color:${markerColor}; width:${size}px; height:${size}px; border-radius:50%; border:2px solid ${borderColor}; box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+        iconSize: [size+6, size+6],
+        iconAnchor: [(size+6)/2, (size+6)/2]
+    });
+    
+    var popupContent = `
+        <b>🏘️ ${item.localite}</b><br>
+        📍 ${item.departement}, ${item.region}<br>
+        📊 ${item.type}: <b>${item.capacite.toLocaleString()} T/an</b><br>
+        ${item.commentaire ? `<small>📝 ${item.commentaire.substring(0, 100)}${item.commentaire.length > 100 ? '...' : ''}</small>` : ''}
+    `;
+    
+    var marker = L.marker([item.lat, item.lon], {icon: customIcon}).addTo(map);
+    marker.bindPopup(popupContent);
+    marker.itemData = item;
+    markers.push(marker);
+    
+    // Vérification des coordonnées pour le débogage
+    console.log(`${item.localite}: lat=${item.lat}, lon=${item.lon}`);
+});
+
+// Création du marqueur bleu
+function createSimpleBlueMarker(lat, lon) {
+    if (selectedBlueMarker) {
+        map.removeLayer(selectedBlueMarker);
+    }
+    
+    var blueIcon = L.divIcon({
+        className: 'blue-marker',
+        html: `<i class="fas fa-map-marker-alt" style="font-size: 36px; color: #2196F3; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></i>`,
+        iconSize: [30, 36],
+        iconAnchor: [15, 36],
+        popupAnchor: [0, -30]
+    });
+    
+    selectedBlueMarker = L.marker([lat, lon], {icon: blueIcon}).addTo(map);
+    return selectedBlueMarker;
+}
+
+function populateRegions() {
+    var regions = [...new Set(cacaoData.map(d => d.region))].sort();
+    var regionSelect = document.getElementById("regionSelect");
+    regionSelect.innerHTML = '<option value="">-- Toutes les régions --</option>';
+    regions.forEach(r => {
+        var opt = document.createElement("option");
+        opt.value = r;
+        opt.text = r;
+        regionSelect.appendChild(opt);
+    });
+}
+
+function populateDepartements() {
+    var region = document.getElementById("regionSelect").value;
+    var depSelect = document.getElementById("depSelect");
+    var locSelect = document.getElementById("locSelect");
+    
+    if (!region) {
+        depSelect.innerHTML = '<option value="">-- Choisir d abord une région --</option>';
+        locSelect.innerHTML = '<option value="">-- Choisir d abord un département --</option>';
+        return;
+    }
+    
+    var depts = [...new Set(cacaoData.filter(d => d.region === region).map(d => d.departement))].sort();
+    depSelect.innerHTML = '<option value="">-- Tous les départements --</option>';
+    depts.forEach(d => {
+        var opt = document.createElement("option");
+        opt.value = d;
+        opt.text = d;
+        depSelect.appendChild(opt);
+    });
+    locSelect.innerHTML = '<option value="">-- Choisir d abord un département --</option>';
+}
+
+function populateLocalites() {
+    var region = document.getElementById("regionSelect").value;
+    var dep = document.getElementById("depSelect").value;
+    var locSelect = document.getElementById("locSelect");
+    
+    if (!region || !dep) {
+        locSelect.innerHTML = '<option value="">-- Sélectionnez région et département --</option>';
+        return;
+    }
+    
+    var locs = cacaoData.filter(d => d.region === region && d.departement === dep);
+    locSelect.innerHTML = '<option value="">-- Choisir une localité --</option>';
+    locs.forEach(l => {
+        var opt = document.createElement("option");
+        opt.value = l.localite;
+        opt.text = `${l.localite} (${l.capacite.toLocaleString()} T/an)`;
+        locSelect.appendChild(opt);
+    });
+}
+
+function filterMap() {
+    var region = document.getElementById("regionSelect").value;
+    var dep = document.getElementById("depSelect").value;
+    
+    markers.forEach(marker => {
+        var item = marker.itemData;
+        var show = true;
+        if (region && item.region !== region) show = false;
+        if (dep && item.departement !== dep) show = false;
+        
+        if (show) {
+            if (!map.hasLayer(marker)) marker.addTo(map);
+        } else {
+            if (map.hasLayer(marker)) marker.removeFrom(map);
+        }
+    });
+}
+
+function zoomToLocalite() {
+    var locName = document.getElementById("locSelect").value;
+    if (!locName) {
+        alert("Veuillez sélectionner une localité");
+        return;
+    }
+    
+    var item = cacaoData.find(d => d.localite === locName);
+    if (item) {
+        // Zoom sur la localité
+        map.setView([item.lat, item.lon], 13);
+        
+        // Ajouter le marqueur bleu
+        createSimpleBlueMarker(item.lat, item.lon);
+        
+        // Ouvrir le popup
+        markers.forEach(marker => {
+            if (marker.itemData.localite === item.localite) {
+                marker.openPopup();
+            }
+        });
+        
+        // Afficher les informations
+        document.getElementById("infoTitle").innerHTML = `📍 ${item.localite}`;
+        document.getElementById("infoContent").innerHTML = `
+            <div class="info-row">
+                <span class="info-label">🏛️ Département:</span>
+                <span class="info-value">${item.departement}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🌍 Région:</span>
+                <span class="info-value">${item.region}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📊 Type:</span>
+                <span class="info-value">${item.type}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🏭 Capacité:</span>
+                <span class="info-value production-high">${item.capacite.toLocaleString()} Tonnes/an</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🗺️ Latitude:</span>
+                <span class="info-value">${item.lat}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🗺️ Longitude:</span>
+                <span class="info-value">${item.lon}</span>
+            </div>
+            ${item.commentaire ? `
+            <div class="info-row">
+                <span class="info-label">📝 Commentaire:</span>
+                <span class="info-value">${item.commentaire}</span>
+            </div>` : ''}
+        `;
+        document.getElementById("infoCard").style.display = "block";
+        
+        setTimeout(() => {
+            if (document.getElementById("infoCard").style.display !== "none") {
+                document.getElementById("infoCard").style.display = "none";
+            }
+        }, 10000);
+    }
+}
+
+function resetMap() {
+    map.setView([5.5, 12.5], 6.2);
+    
+    if (selectedBlueMarker) {
+        map.removeLayer(selectedBlueMarker);
+        selectedBlueMarker = null;
+    }
+    
+    document.getElementById("regionSelect").value = "";
+    document.getElementById("depSelect").innerHTML = '<option value="">-- Choisir d abord une région --</option>';
+    document.getElementById("locSelect").innerHTML = '<option value="">-- Choisir d abord un département --</option>';
+    
+    markers.forEach(marker => {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+    });
+    
+    document.getElementById("infoCard").style.display = "none";
+    map.closePopup();
+}
+
+// Événements
+document.getElementById("regionSelect").addEventListener("change", function() {
+    populateDepartements();
+    filterMap();
+    if (selectedBlueMarker) {
+        map.removeLayer(selectedBlueMarker);
+        selectedBlueMarker = null;
+    }
+});
+
+document.getElementById("depSelect").addEventListener("change", function() {
+    populateLocalites();
+    filterMap();
+    if (selectedBlueMarker) {
+        map.removeLayer(selectedBlueMarker);
+        selectedBlueMarker = null;
+    }
+});
+
+// Initialisation
+populateRegions();
+</script>
+
+</body>
+</html>
