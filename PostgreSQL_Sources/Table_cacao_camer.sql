@@ -1,3 +1,5 @@
+-- Creation de la base de donnees
+Create database Sig_Cacao_cmr;
 -- Activer l'extension PostGIS (si pas déjà fait)
 CREATE EXTENSION IF NOT EXISTS postgis;
 
