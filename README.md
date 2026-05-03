@@ -66,6 +66,8 @@ Le projet s'appuie sur un fichier CSV contenant une liste de localités cameroun
 ## 🗺️ Résultat : Carte finale des bassins cacaoyers
 ![Carte des zones cacaoyères du Cameroun](https://raw.githubusercontent.com/atchom/SIG_Cacao_Cameroun/main/images/Cameroun_Cacao_Map.png)
 ---
+## 🌍Version interactive de la Carte
+🌍 [**Consulter la carte interactive : Production et transformation du cacao (2025)**](https://atchom.github.io/cmr_map)
 ## 📝 Conclusion
 
 Le projet **SIG_Cacao_Cameroun** a permis de recenser et de géolocaliser les principales zones de production cacaoyère au Cameroun. À partir de données terrain collectées via **UTM Geo Map**, enrichies par des scripts **Python** et structurées dans une base **PostgreSQL/PostGIS**, une carte finale a été produite sous **QGIS**.
@@ -83,7 +85,7 @@ Le projet **SIG_Cacao_Cameroun** a permis de recenser et de géolocaliser les pr
 |--------|----------------------|
 | Coordonnées manquantes pour certaines localités | Enrichissement via géocodage complémentaire ou enquêtes terrain |
 | Données statiques (pas de mise à jour automatique) | Mise en place d'un flux ETL automatisé |
-| Carte en version statique uniquement | Développement d'une carte interactive (Folium / Leaflet) |
+
 
 ### Perspectives
 
