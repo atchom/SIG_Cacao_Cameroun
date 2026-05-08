@@ -88,9 +88,6 @@ Le projet **SIG_Cacao_Cameroun** a permis de recenser et de géolocaliser les pr
 
 
 ### Perspectives
-
-- 🌐 **Publication en ligne** : déployer la carte sur une plateforme Web SIG
-- 📊 **Tableaux de bord** : ajouter des indicateurs (superficies, rendements, etc.)
 - 🔄 **Mise à jour participative** : permettre aux producteurs et ONG d'enrichir la base
 
 ---
